@@ -17,7 +17,7 @@ import (
 var (
 	USER = flag.String("user", os.Getenv("USER"), "ssh username")
 	HOST = flag.String("host", "127.0.0.1", "ssh server hostname")
-	PORT = flag.Int("port", 1080, "socksie listening port")
+	PORT = flag.Int("port", 7070, "socksie listening port")
 	PASS = flag.String("pass", os.Getenv("SOCKSIE_SSH_PASSWORD"), "ssh password")
 )
 
