@@ -4,7 +4,7 @@ package main
 // SSH to a remote host
 
 import (
-	"code.google.com/p/go.crypto/ssh"
+	"github.com/golang/crypto/ssh"
 	"flag"
 	"fmt"
 	"log"
