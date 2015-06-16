@@ -4,9 +4,9 @@ package main
 // SSH to a remote host
 
 import (
-	"github.com/golang/crypto/ssh"
 	"flag"
 	"fmt"
+	"github.com/golang/crypto/ssh"
 	"log"
 	"net"
 	"os"
@@ -15,10 +15,11 @@ import (
 )
 
 var (
-	USER = flag.String("user", os.Getenv("USER"), "ssh username")
-	HOST = flag.String("host", "127.0.0.1", "ssh server hostname")
-	PORT = flag.Int("port", 7070, "socksie listening port")
-	PASS = flag.String("pass", os.Getenv("SOCKSIE_SSH_PASSWORD"), "ssh password")
+	USER  = flag.String("user", os.Getenv("USER"), "ssh username")
+	HOST  = flag.String("host", "127.0.0.1", "ssh server hostname")
+	PORT  = flag.Int("port", 7070, "socksie listening port")
+	RPORT = flag.Int("rport", 22, "ssh server port")
+	PASS  = flag.String("pass", os.Getenv("SOCKSIE_SSH_PASSWORD"), "ssh password")
 )
 
 func init() { flag.Parse() }
@@ -39,14 +40,14 @@ func main() {
 		User: *USER,
 		Auth: auths,
 	}
-	addr := fmt.Sprintf("%s:%d", *HOST, 22)
+	addr := fmt.Sprintf("%s:%d", *HOST, *RPORT)
 	conn, err := ssh.Dial("tcp", addr, config)
 	if err != nil {
 		log.Fatalf("unable to connect to [%s]: %v", addr, err)
 	}
 	defer conn.Close()
 
-	addr = fmt.Sprintf("%s:%d", "0", *PORT)
+	addr = fmt.Sprintf("%s:%d", "0.0.0.0", *PORT)
 	l, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatalf("unable to listen on SOCKS port [%s]: %v", addr, err)
